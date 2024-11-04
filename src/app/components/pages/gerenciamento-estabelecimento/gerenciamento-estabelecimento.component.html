@@ -1,0 +1,125 @@
+<div class="row mb-5">
+    <div class="col-12 col-lg-10 col-md-10 mx-auto">
+        <header class="header">
+            <h3>Locais de trabalho</h3>
+        </header>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 col-lg-10 col-md-10 mx-auto">
+        <section class="sessao-cadastro">
+            <button class="btn btn-sm custom-btn-primary d-flex align-items-baseline gap-3"
+                (click)="abrirModal(modal)"><i class="bi bi-house-add fs-1"></i>
+                <span class="fs-3">Novo</span>
+            </button>
+        </section>
+    </div>
+</div>
+
+
+<div class="row" *ngIf="estabelecimentos.length > 0">
+    <div class="col-12">
+        <hr class="divisor my-5">
+    </div>
+</div>
+
+<div class="row" *ngIf="estabelecimentos.length == 0" [ngStyle]="{'margin-top': '40px'}">
+    <div class="col-10 col-lg-10 col-md-10 mx-auto">
+        <section class="sem-dados-para-exibir p-3">
+            <span>Não há dados para serem exibidos</span>
+            <p>Cadastre um local de trabalho para gerenciar seus seviços, agendamentos.</p>
+        </section>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 col-lg-10 col-md-10 mx-auto">
+        <section class="sessao-estabelecimentos">
+            <article class="card-estabelecimento col-10 col-lg-4 col-md-4 mx-auto"
+                *ngFor="let estabelecimento of estabelecimentos">
+                <header class="card-header-estabelecimento">
+                    <i class="bi bi-pen" (click)="abrirModal(modal, estabelecimento)"></i>
+                    <i class="bi bi-trash" (click)="deletar(estabelecimento.id)"></i>
+                </header>
+                <main class="card-body-estabelecimento">
+                    <hr class="divisor-card">
+                    <div class="d-flex flex-column align-items-center">
+                        <h4>{{estabelecimento.nome}}</h4>
+                        <span style="font-size: 0.7rem;letter-spacing: 2px;">{{estabelecimento.telefone}}</span>
+                    </div>
+                    <hr class="divisor-card">
+                </main>
+                <footer class="card-footer-estabelecimento">
+                    <button class="btn btn-sm custom-btn-primary-card d-flex align-items-baseline gap-3"
+                        (click)="selecionarEstabelecimento(estabelecimento.id)">
+                        <span>Selecionar</span>
+                    </button>
+                </footer>
+            </article>
+        </section>
+    </div>
+</div>
+
+
+<!-- MODAL -->
+<ng-template #modal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-estabelecimento-title">Novo</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="frmEstabelecimento">
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <div class="form-group">
+                        <label>Nome</label>
+                        <input type="text" formControlName="nome" class="form-control"
+                            placeholder="Nome do estabelecimento">
+                        <span class="w-100 error-input small"
+                            *ngIf="(frmEstabelecimento.get('nome')?.hasError('required') && frmEstabelecimento.get('nome')?.touched)">
+                            O nome é obrigatório!
+                        </span>
+                    </div>
+                </div>
+                <div class="col-12 mb-3">
+                    <div class="form-group">
+                        <label>Endereço</label>
+                        <input type="text" formControlName="endereco" class="form-control"
+                            placeholder="Endereço do estabelecimento">
+                        <span class="w-100 error-input small"
+                            *ngIf="(frmEstabelecimento.get('endereco')?.hasError('required') && frmEstabelecimento.get('endereco')?.touched)">
+                            O endereço é obrigatório!
+                        </span>
+                    </div>
+                </div>
+                <div class="col-12 mb-3">
+                    <div class="form-group">
+                        <label>Telefone</label>
+                        <input type="text" formControlName="telefone" class="form-control"
+                            placeholder="Telefone do estabelecimento">
+                        <span class="w-100 error-input small"
+                            *ngIf="(frmEstabelecimento.get('telefone')?.hasError('required') && frmEstabelecimento.get('telefone')?.touched)">
+                            O telefone é obrigatório!
+                        </span>
+                    </div>
+                </div>
+                <div class="col-12 mb-3">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="text" formControlName="email" class="form-control"
+                            placeholder="Email do estabelecimento">
+                        <span class="w-100 error-input small"
+                            *ngIf="(frmEstabelecimento.get('email')?.hasError('required') && frmEstabelecimento.get('email')?.touched)">
+                            O email é obrigatório!
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-sm custom-btn-primary" (click)="submitForm()"><i
+                class="bi bi-check-circle fs-4"></i></button>
+    </div>
+</ng-template>

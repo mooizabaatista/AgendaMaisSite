@@ -1,0 +1,45 @@
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    font-size: 2rem;
+    background-color: var(--laranja-secundario);
+
+    color: var(--texto-principal-claro);
+
+    i {
+        font-size: 2.2rem;
+    }
+}
+
+
+.sessao-cadastro {
+    margin-top: 15px;
+    margin-bottom: 8px;
+    border: solid thin var(--laranja-secundario);
+
+    .btn-add {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        font-weight: 600;
+        font-size: 1rem;
+        color: var(--laranja-principal);
+        flex-grow: 1;
+        width: 100%;
+    }
+
+    i {
+        font-size: 1.3rem;
+    }
+}
+
+.sessao-lista-clientes {
+    margin-top: 10px;
+}
+
+.sessao-lista-clientes .input-search {
+    margin-bottom: 15px;
+}

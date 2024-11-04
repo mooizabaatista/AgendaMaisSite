@@ -1,0 +1,49 @@
+.sessao-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--laranja-principal);
+    font-size: 2rem;
+    padding: var(--p-15);
+}
+
+.offcanvas-header {
+    color: #FFF !important;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.3rem;
+}
+
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    width: 100%;
+}
+
+.nav-link:focus {
+    outline: none;
+    /* Remove o contorno padrão */
+    box-shadow: 0 0 0 0.2rem var(--cinza-escuro);
+    /* Altere para sua cor desejada */
+}
+
+.nav-link:active {
+    color: var(--laranja-principal)
+}
+
+.nav-link:hover {
+    color: var(--laranja-secundario)
+}
+
+.nav-link {
+    color: var(--texto-principal-claro);
+    font-size: 1.1rem;
+
+
+    i {
+        color: var(--laranja-principal);
+
+    }
+}
