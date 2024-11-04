@@ -9,15 +9,7 @@ export class MensagemServiceService {
   constructor() { }
 
   mostrarMensagemErro(error: any) {
-    const errorList = error.map((erro: any) => {
-      return `<li class='list-group-item'>${erro}</li>`;
-    }).join('');
-
-    Swal.fire({
-      title: "Erro!",
-      html: `<ul class='list-group'>${errorList}</ul>`,
-      icon: 'error'
-    });
+    console.log(error)
   }
 
   mostrarMensagemSucesso(mensagem: string) {

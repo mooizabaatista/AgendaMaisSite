@@ -91,13 +91,22 @@ export class GerenciamentoEstabelecimentoComponent implements OnInit {
       title: "Tem certeza?",
       icon: 'question',
       html: `
-        <h5 class='alert alert-danger p-1'>Esta opção não pode ser revertida</h5>
+        <h5 class='p-1' style='background-color: var(--laranja-principal); color: var(--texto-principal-claro)'>Esta opção não pode ser revertida</h5>
         <p>Todos os itens relacionados a este local serão excluidos, tais como: </p>
-        <ul>
-          <li>Serviços</li>
-          <li>Agendamentos</li>
+        <ul class='list-group'>
+          <li class='list-group-item'><strong>Serviços</strong></li>
+          <li class='list-group-item'><strong>Agendamentos</strong></li>
         </ul>
-      `
+      `,
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: 'var(--laranja-principal)',
+      cancelButtonColor: 'var(--cinza-claro)',
+      customClass: {
+        confirmButton: 'px-5',
+        cancelButton: 'px-5'
+      },
+      iconColor: 'var(--laranja-secundario)'
     }).then((result) => {
       if (result.isConfirmed) {
         this.estabelecimentoService.delete(id).subscribe({

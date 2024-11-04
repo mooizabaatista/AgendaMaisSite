@@ -35,24 +35,25 @@ header {
     }
 }
 
-.sessao-lista-clientes {
+
+.sessao-lista-agendamentos {
     margin-top: 20px;
 }
 
-.sessao-lista-clientes .input-search {
+.sessao-lista-agendamentos .input-search {
     margin-bottom: 15px;
 }
 
 
-.sessao-lista-clientes thead {
+.sessao-lista-agendamentos thead {
     border-bottom: solid thin var(--laranja-principal);
 }
 
-.sessao-lista-clientes tbody {
+.sessao-lista-agendamentos tbody {
     line-height: 40px;
 }
 
-.sessao-lista-clientes td:last-child {
+.sessao-lista-agendamentos td:last-child {
     width: 20%;
 }
 

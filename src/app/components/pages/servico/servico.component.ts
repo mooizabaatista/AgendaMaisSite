@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Cliente } from 'src/app/interfaces/cliente';
-import { ClienteService } from 'src/app/services/cliente.service';
+import { Servico } from 'src/app/interfaces/servico';
+import { ServicoService } from 'src/app/services/servico.service';
 import { MensagemServiceService } from 'src/app/services/mensagem-service.service';
 import { ValidacaoEstabelecimentoService } from 'src/app/services/validacao-estabelecimento.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-cliente',
-  templateUrl: './cliente.component.html',
-  styleUrls: ['./cliente.component.css']
+  selector: 'app-servico',
+  templateUrl: './servico.component.html',
+  styleUrls: ['./servico.component.css']
 })
-export class ClienteComponent implements OnInit {
+export class ServicoComponent implements OnInit {
 
-  frmCliente!: FormGroup
-  clientes: Cliente[] = [];
+  frmServico!: FormGroup
+  servicos: Servico[] = [];
   estId!: number;
   searchTerm: string = '';
   page: number = 1;
@@ -23,29 +23,29 @@ export class ClienteComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
-    private clienteService: ClienteService,
+    private servicoService: ServicoService,
     private mensagemService: MensagemServiceService) { }
 
 
   ngOnInit(): void {
-    this.listarClientes();
+    this.listarServicos();
     this.inicializarFormulario();
   }
 
-  listarClientes() {
+  listarServicos() {
     const estId = localStorage.getItem('estId')
 
     if (estId) {
-      this.clienteService.getAll(estId)
+      this.servicoService.getAll(estId)
         .subscribe({
           next: (data: any) => {
-            this.clientes = data.resultado;
+            this.servicos = data.resultado;
           }
         })
     }
   }
 
-  abrirModal(content: any, item?: Cliente) {
+  abrirModal(content: any, item?: Servico) {
 
     if (item) {
       this.inicializarFormulario(item)
@@ -60,40 +60,37 @@ export class ClienteComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
-  inicializarFormulario(item?: Cliente) {
+  inicializarFormulario(item?: Servico) {
 
     const estId = localStorage.getItem('estId')
 
     // Edição
     if (item !== null && item !== undefined) {
       console.log("Edição")
-      this.frmCliente.patchValue({
+      this.frmServico.patchValue({
         id: item?.id,
         nome: item?.nome,
-        telefone: item?.telefone,
-        email: item?.email,
+        preco: item?.preco,
         estabelecimentoId: item?.estabelecimentoId
       })
     }
     else {
-      this.frmCliente = new FormGroup({
+      this.frmServico = new FormGroup({
         id: new FormControl(),
         nome: new FormControl('', Validators.required),
-        endereco: new FormControl('', Validators.required),
-        telefone: new FormControl('', Validators.required),
-        email: new FormControl('', Validators.required),
+        preco: new FormControl(Validators.required),
         estabelecimentoId: new FormControl(estId)
       })
     }
   }
 
   submitForm() {
-    const clienteData = this.frmCliente.value;
+    const servicoData = this.frmServico.value;
 
-    if (!clienteData.id) {
-      this.clienteService.add(clienteData).subscribe({
+    if (!servicoData.id) {
+      this.servicoService.add(servicoData).subscribe({
         next: (data: any) => {
-          this.mensagemService.mostrarMensagemSucesso("Cliente cadastrado com sucesso!");
+          this.mensagemService.mostrarMensagemSucesso("Servico cadastrado com sucesso!");
           this.fecharModal();
           this.ngOnInit();
         },
@@ -102,10 +99,10 @@ export class ClienteComponent implements OnInit {
         }
       });
     } else {
-      this.clienteService.update(clienteData.id, clienteData).subscribe({
+      this.servicoService.update(servicoData.id, servicoData).subscribe({
         next: (data: any) => {
           if (data.estaValido) {
-            this.mensagemService.mostrarMensagemSucesso("Cliente atualizado com sucesso!")
+            this.mensagemService.mostrarMensagemSucesso("Servico atualizado com sucesso!")
             this.fecharModal();
             this.ngOnInit();
           }
@@ -123,7 +120,7 @@ export class ClienteComponent implements OnInit {
       icon: 'question',
       html: `
         <h5 class='p-1' style='background-color: var(--laranja-principal); color: var(--texto-principal-claro)'>Esta opção não pode ser revertida</h5>
-        <p>Todos os itens relacionados a este cliente serão excluidos, tais como: </p>
+        <p>Todos os itens relacionados a este servico serão excluidos, tais como: </p>
         <ul class='list-group'>
           <li class='list-group-item'><strong>Agendamentos</strong></li>
         </ul>
@@ -139,9 +136,9 @@ export class ClienteComponent implements OnInit {
       iconColor: 'var(--laranja-secundario)'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.clienteService.delete(id).subscribe({
+        this.servicoService.delete(id).subscribe({
           next: (data) => {
-            this.mensagemService.mostrarMensagemSucesso("Cliente excluido com sucesso!")
+            this.mensagemService.mostrarMensagemSucesso("Servico excluido com sucesso!")
             this.ngOnInit();
           },
           error: (error: any) => {
@@ -156,11 +153,11 @@ export class ClienteComponent implements OnInit {
     this.confirmacaoExclusao(id);
   }
 
-  get filteredClientes() {
-    return this.clientes
-      .filter(cliente => {
-        return cliente.nome.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          cliente.telefone.includes(this.searchTerm);
+  get filteredServicos() {
+    return this.servicos
+      .filter(servico => {
+        return servico.nome.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+          servico.preco.toString().includes(this.searchTerm);
       })
       .slice((this.page - 1) * this.pageSize, this.page * this.pageSize);
   }

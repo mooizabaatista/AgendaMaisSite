@@ -1,0 +1,159 @@
+<div class="row">
+    <div class="col-12 col-lg-10 col-md-10 mx-auto">
+        <header>
+            <i class="bi bi-alarm"></i>
+            <span>Agendamentos</span>
+        </header>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-12 col-lg-10 col-md-10 mx-auto">
+        <section class="sessao-cadastro w-50">
+            <button class="btn btn-sm btn-add" (click)="abrirModal(modal)">
+                <span>Novo</span>
+                <i class="bi bi-plus"></i>
+            </button>
+        </section>
+    </div>
+</div>
+
+
+<div class="row" *ngIf="agendamentos && agendamentos.length > 0; else semDadosDisplay">
+    <div class="col-12 col-lg-10 col-md-10 mx-auto">
+        <input type="text" class="form-control input-search mb-4" placeholder="Pesquisar" [(ngModel)]="searchTerm" />
+        <section class="sessao-lista-agendamentos">
+            <table class="table table-custom table-sm text-center rounded" id="tabelaCliente">
+                <thead>
+                    <tr class=" text-white">
+                        <th><i class="bi bi-calendar-date"></i> Data</th>
+                        <th><i class="bi bi-info-circle-fill"></i> Cliente</th>
+                        <th><i class="bi bi-alarm"></i> Inicio</th>
+                        <th><i class="bi bi-alarm"></i> Término</th>
+                        <th><i class="bi bi-check-circle"></i> Concluido</th>
+                        <th><i class="bi bi-x-circle"></i> Cancelado</th>
+                        <th><i class="bi bi-coin"></i> Total</th>
+                        <th><i class="bi bi-gear"></i></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let servico of filteredAgendamentos">
+                        <td>{{servico.data | date:'dd/MM/yyyy'}}</td>
+                        <td>{{servico.cliente?.nome}}</td>
+                        <td>{{servico.horaInicio}}</td>
+                        <td>{{servico.horaFim}}</td>
+                        <td>{{!servico.concluido ? "Não" : "Sim"}}</td>
+                        <td>{{!servico.cancelado ? "Não" : "Sim"}}</td>
+                        <td>{{servico.valorTotal | currency: 'BRL'}}</td>
+
+                        <td>
+                            <span placement="left" [ngbPopover]="popoverContent" popoverTitle="Ações">
+                                <i class="bi bi-three-dots btnAcoes"></i>
+                            </span>
+
+                            <ng-template #popoverContent>
+                                <div class="d-flex flex-column align-items-center justify-content-center gap-3">
+                                    <i class="bi bi-pencil btn-editar" (click)="abrirModal(modal, servico)"></i>
+                                    <i class="bi bi-trash btn-deletar" (click)="confirmacaoExclusao(servico.id)"></i>
+                                </div>
+                            </ng-template>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <ngb-pagination [collectionSize]="agendamentos.length" [(page)]="page" [pageSize]="pageSize"
+                (pageChange)="onPageChange($event)"></ngb-pagination>
+        </section>
+    </div>
+
+
+</div>
+
+<ng-template #semDadosDisplay>
+    <div class="text-center mt-5">
+        <h2 style="color:var(--laranja-principal)">Não há dados para exibir...</h2>
+    </div>
+</ng-template>
+
+<!-- MODAL -->
+<ng-template #modal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-cliente-title">Novo</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="fecharModal()"></button>
+    </div>
+    <div class="modal-body">
+        <div class="text-center py-3">
+            <h1 class="fs-1">{{valorTotal | currency: 'BRL'}}</h1 >
+        </div>
+        <form [formGroup]="frmAgendamento">
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <div class="form-group">
+                        <label>Data</label>
+                        <input class="form-control" type="date" formControlName="data" />
+                        <span class="w-100 error-input small"
+                            *ngIf="(frmAgendamento.get('data')?.hasError('required') && frmAgendamento.get('data')?.touched)">
+                            A data é obrigatória!
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-12 mb-3">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Inicio</label>
+                                <input class="form-control" type="time" formControlName="horaInicio" />
+                                <span class="w-100 error-input small"
+                                    *ngIf="(frmAgendamento.get('horaInicio')?.hasError('required') && frmAgendamento.get('horaInicio')?.touched)">
+                                    O inicio é obrigatório!
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Término</label>
+                                <input class="form-control" type="time" formControlName="horaFim" />
+                                <span class="w-100 error-input small"
+                                    *ngIf="(frmAgendamento.get('horaFim')?.hasError('required') && frmAgendamento.get('horaFim')?.touched)">
+                                    O término é obrigatório!
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 mb-3">
+                    <div class="row">
+                        <div class="form-group">
+                            <label>Serviços</label>
+                            <ng-container>
+                                <ng-multiselect-dropdown [settings]="settings" [placeholder]="'Selecione os serviços'"
+                                    [data]="data" formControlName="servicos" (onSelect)="onItemSelect($event)"
+                                    (onDeSelect)="onDeselect($event)">
+                                </ng-multiselect-dropdown>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 mb-3">
+                    <div class="row">
+                        <div class="form-group">
+                            <label>Clientes</label>
+                            <ng-select [items]="clientes" placeholder="Pesquisar..." formControlName="clienteId"
+                                bindLabel="nome" bindValue="id" [(ngModel)]="clienteSelecionado">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-sm custom-btn-primary" (click)="submitForm()"><i
+                class="bi bi-check-circle fs-4"></i></button>
+    </div>
+</ng-template>

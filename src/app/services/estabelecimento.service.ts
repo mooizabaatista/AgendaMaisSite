@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { baseUrl } from '../utils/shared-links'; import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Estabelecimento } from '../interfaces/estabelecimento';
-'../utils/shared-links'
 
 @Injectable({
   providedIn: 'root'

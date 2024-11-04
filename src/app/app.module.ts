@@ -8,10 +8,16 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/pages/home/home.component';
 import { GerenciamentoEstabelecimentoComponent } from './components/pages/gerenciamento-estabelecimento/gerenciamento-estabelecimento.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepickerModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ClienteComponent } from './components/pages/cliente/cliente.component';
+import { ServicoComponent } from './components/pages/servico/servico.component';
+import { AgendamentoComponent } from './components/pages/agendamento/agendamento.component';
+import { JsonPipe } from '@angular/common';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { NgSelectModule } from '@ng-select/ng-select';
+
 
 @NgModule({
   declarations: [
@@ -19,9 +25,12 @@ import { ClienteComponent } from './components/pages/cliente/cliente.component';
     HomeComponent,
     GerenciamentoEstabelecimentoComponent,
     NavbarComponent,
-    ClienteComponent
+    ClienteComponent,
+    ServicoComponent,
+    AgendamentoComponent
   ],
   imports: [
+    JsonPipe,
     BrowserModule,
     AppRoutingModule,
     NgbModule,
@@ -29,7 +38,10 @@ import { ClienteComponent } from './components/pages/cliente/cliente.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    SweetAlert2Module
+    SweetAlert2Module,
+    NgbAlertModule,
+    NgMultiSelectDropDownModule.forRoot(),
+    NgSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

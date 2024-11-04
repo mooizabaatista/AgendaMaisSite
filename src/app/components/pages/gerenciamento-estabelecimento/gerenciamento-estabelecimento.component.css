@@ -65,7 +65,12 @@
 }
 
 .card-body-estabelecimento h4 {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
+}
+
+.card-body-estabelecimento span {
+    font-size: 0.7rem;
+    letter-spacing: 2px;
 }
 
 .card-footer-estabelecimento {

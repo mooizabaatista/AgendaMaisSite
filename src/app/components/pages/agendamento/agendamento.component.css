@@ -13,9 +13,29 @@ header {
     }
 }
 
+.table td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100px;
+}
+
+.table td, .table th {
+    padding: 8px;
+    font-size: 1rem !important;
+}
+
+@media (max-width: 768px) {
+    .table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}
+
 .sessao-cadastro {
     margin-top: 20px;
-    margin-bottom: 8px;
+    margin-bottom: 20px;
     border: solid thin var(--laranja-secundario);
 
     .btn-add {
@@ -35,30 +55,31 @@ header {
     }
 }
 
-.sessao-lista-clientes {
+
+.sessao-lista-servicos {
     margin-top: 20px;
 }
 
-.sessao-lista-clientes .input-search {
+.sessao-lista-servicos .input-search {
     margin-bottom: 15px;
 }
 
 
-.sessao-lista-clientes thead {
+.sessao-lista-servicos thead {
     border-bottom: solid thin var(--laranja-principal);
 }
 
-.sessao-lista-clientes tbody {
+.sessao-lista-servicos tbody {
     line-height: 40px;
 }
 
-.sessao-lista-clientes td:last-child {
+.sessao-lista-servicos td:last-child {
     width: 20%;
 }
 
 .btnAcoes {
-    font-size: 1.6rem !important;
     color: var(--laranja-principal) !important;
+    font-size: 1.2rem;
 }
 
 .btn-editar,
@@ -71,3 +92,5 @@ header {
     font-size: 1.2rem;
     color: var(--laranja-principal) !important;
 }
+
+

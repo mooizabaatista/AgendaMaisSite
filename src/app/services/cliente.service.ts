@@ -12,7 +12,7 @@ export class ClienteService {
   constructor(private httpClient: HttpClient) { }
 
   getAll(estabelecimentoId: any): Observable<Cliente[]> {
-    return this.httpClient.get<Cliente[]>(baseUrl + `Clientes/${estabelecimentoId}`)
+    return this.httpClient.get<Cliente[]>(baseUrl + `Clientes/GetAll/${estabelecimentoId}`)
   }
 
   add(Cliente: Cliente): Observable<Cliente> {
